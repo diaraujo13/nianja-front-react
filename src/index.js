@@ -181,7 +181,7 @@ export class App extends React.Component {
                       control={
                         <Checkbox
                           onChange={this._handleCheckbox("required", index)}
-                          value={this.state.attrs[index].required }
+                          value={this.state.attrs[index].required}
                         />
                       }
                       label="Obrigatório"
@@ -192,22 +192,61 @@ export class App extends React.Component {
                         Column type
                       </InputLabel>
                       <Select
-                        displayEmpty
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
+                        value={this.state.attrs[index].typeName}
+                        onChange={this._handleChange("typeName", index)}
                       >
                         {select_options.map((el, index) => (
-                          <MenuItem value={index}>{el}</MenuItem>
+                          <MenuItem key={index} value={el}>
+                            {el}
+                          </MenuItem>
                         ))}
                       </Select>
                     </FormControl>
 
-                    <TextField
-                      id="standard-search"
-                      label="Tooltip descr"
-                      type="search"
-                      margin="normal"
-                    />
+                    {this.state.attrs[index].typeName == "picker" ||
+                    this.state.attrs[index].typeName == "radio" ? (
+                      <TextField
+                        id="standard-search"
+                        onChange={this._handleChange("values", index)}
+                        value={this.state.attrs[index].values}
+                        label="Valores do campo"
+                        type="search"
+                        margin="normal"
+                      />
+                    ) : (
+                      <TextField
+                        id="standard-search"
+                        style={{ opacity: 0 }}
+                        type="search"
+                        margin="normal"
+                      />
+                    )}
+
+                    {this.state.attrs[index].typeName == "hasOneRelationship" ||
+                    this.state.attrs[index].typeName ==
+                      "hasManyRelationship" ? (
+                      <TextField
+                        id="standard-search"
+                        onChange={this._handleChange(
+                          "relationshipEntity",
+                          index
+                        )}
+                        value={this.state.attrs[index].relationshipEntity}
+                        label="Entidade "
+                        style={{ width: "50%" }}
+                        type="search"
+                        margin="normal"
+                      />
+                    ) : (
+                      <TextField
+                        id="standard-search"
+                        style={{ opacity: 0 }}
+                        type="search"
+                        margin="normal"
+                      />
+                    )}
                   </Grid>
                 </Grid>
               );
